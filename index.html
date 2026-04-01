@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kesavan D | Portfolio</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;600&display=swap" rel="stylesheet">
+
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+body {
+    background: #020617;
+    color: #e2e8f0;
+    scroll-behavior: smooth;
+}
+
+/* HERO */
+.hero {
+    height: 100vh;
+    background: linear-gradient(135deg, #4f46e5, #06b6d4);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color: white;
+}
+
+.hero h1 {
+    font-size: 3rem;
+    animation: fadeIn 2s ease-in-out;
+}
+
+.hero p {
+    margin-top: 10px;
+    font-size: 1.3rem;
+}
+
+/* NAV */
+nav {
+    position: sticky;
+    top: 0;
+    background: rgba(2,6,23,0.9);
+    display: flex;
+    justify-content: center;
+    gap: 25px;
+    padding: 15px;
+    backdrop-filter: blur(10px);
+}
+
+nav a {
+    color: #38bdf8;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+/* SECTION */
+section {
+    padding: 60px 20px;
+    max-width: 1000px;
+    margin: auto;
+}
+
+h2 {
+    color: #22c55e;
+    margin-bottom: 20px;
+}
+
+.card {
+    background: #0f172a;
+    padding: 20px;
+    border-radius: 15px;
+    margin-bottom: 20px;
+    transition: 0.3s;
+}
+
+.card:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 20px #06b6d4;
+}
+
+/* SKILLS */
+.skills span {
+    display: inline-block;
+    background: #1e293b;
+    margin: 5px;
+    padding: 10px;
+    border-radius: 8px;
+}
+
+/* LINKS */
+.links a {
+    display: inline-block;
+    margin: 10px;
+    padding: 10px 15px;
+    background: #06b6d4;
+    color: white;
+    border-radius: 8px;
+    text-decoration: none;
+    transition: 0.3s;
+}
+
+.links a:hover {
+    background: #4f46e5;
+}
+
+/* FOOTER */
+footer {
+    text-align: center;
+    padding: 20px;
+    background: #020617;
+}
+
+/* ANIMATION */
+@keyframes fadeIn {
+    from {opacity: 0; transform: translateY(-20px);}
+    to {opacity: 1; transform: translateY(0);}
+}
+</style>
+</head>
+
+<body>
+
+<div class="hero">
+    <h1>Kesavan D</h1>
+    <p>🚀 Full Stack Developer | Future Tech Explorer</p>
+</div>
+
+<nav>
+    <a href="#about">About</a>
+    <a href="#projects">Projects</a>
+    <a href="#skills">Skills</a>
+    <a href="#contact">Contact</a>
+</nav>
+
+<section id="about">
+    <h2>👨‍💻 About Me</h2>
+    <div class="card">
+        <p>
+        I am a first-year B.Tech IT student at Karpagam College of Engineering (2025–2029), passionate about programming and technology.
+        </p>
+        <p>
+        Currently learning C++, web development, and problem solving. I love building projects and improving daily.
+        </p>
+    </div>
+</section>
+
+<section id="projects">
+    <h2>📂 Projects</h2>
+    <div class="card">
+        <h3>🧮 Simple Calculator</h3>
+        <p>A simple calculator performing arithmetic operations using programming logic.</p>
+    </div>
+</section>
+
+<section id="skills">
+    <h2>⚡ Skills</h2>
+    <div class="card skills">
+        <span>C++</span>
+        <span>HTML</span>
+        <span>CSS</span>
+        <span>JavaScript</span>
+        <span>Problem Solving</span>
+        <span>Python (Data Science)</span>
+        <span>Agentic AI</span>
+    </div>
+</section>
+
+<section id="contact">
+    <h2>📞 Contact</h2>
+    <div class="card">
+        <p>Email: krsrisabari123@gmail.com</p>
+        <p>Phone: 9629081281</p>
+
+        <div class="links">
+            <a href="https://www.linkedin.com/in/sabari-nathan-2a9428395?utm_source=share_via&utm_content=profile&utm_medium=member_android">LinkedIn</a>
+            <a href="https://leetcode.com/u/0c9ysjMSO7/">LeetCode</a>
+            <a href="https://www.geeksforgeeks.org/profile/user_h29qwiyhjtk">CodeChef</a>
+            <a href="https://www.codechef.com/users/quasi_oxen_59">GeeksforGeeks</a>
+        </div>
+    </div>
+</section>
+
+<footer>
+    <p>© 2026 Sabari K| Built with 💙</p>
+</footer>
+
+</body>
+</html>
