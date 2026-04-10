@@ -3,47 +3,66 @@
 <head>
   <meta charset="UTF-8">
   <title>Bus Ticket Reservation</title>
-  <link rel="stylesheet" href="style.css">
+
   <style>
-  body {
-  font-family: Arial;
-  text-align: center;
-}
+    body {
+      font-family: Arial;
+      text-align: center;
+    }
 
-.form input {
-  margin: 5px;
-  padding: 8px;
-}
+    .form input {
+      margin: 5px;
+      padding: 8px;
+    }
 
-#seats {
-  display: grid;
-  grid-template-columns: repeat(5, 50px);
-  gap: 10px;
-  justify-content: center;
-  margin: 20px;
-}
+    #seats {
+      display: grid;
+      grid-template-columns: repeat(5, 50px);
+      gap: 10px;
+      justify-content: center;
+      margin: 20px;
+    }
 
-.seat {
-  padding: 10px;
-  border: 1px solid black;
-  cursor: pointer;
-}
+    .seat {
+      padding: 10px;
+      border: 1px solid black;
+      cursor: pointer;
+    }
 
-.selected {
-  background-color: green;
-  color: white;
-}
+    .selected {
+      background-color: green;
+      color: white;
+    }
 
-.booked {
-  background-color: gray;
-  color: white;
-  cursor: not-allowed;
-}
-    </style>
+    .booked {
+      background-color: gray;
+      color: white;
+      cursor: not-allowed;
+    }
+  </style>
 </head>
+
 <body>
-  <script>
-  let selectedSeats = [];
+
+<h1>🚌 Bus Ticket Reservation</h1>
+
+<div class="form">
+  <input type="text" id="name" placeholder="Your Name">
+  <input type="text" id="from" placeholder="From">
+  <input type="text" id="to" placeholder="To">
+  <button onclick="generateSeats()">Search Bus</button>
+</div>
+
+<h2>Select Seats</h2>
+<div id="seats"></div>
+
+<button onclick="bookSeats()">Book Now</button>
+
+<h2>Bookings</h2>
+<ul id="bookingList"></ul>
+
+<script>
+let selectedSeats = [];
 let bookedSeats = JSON.parse(localStorage.getItem("bookedSeats")) || [];
 
 function generateSeats() {
@@ -99,27 +118,9 @@ function bookSeats() {
   generateSeats();
 }
 
-// Load seats on page load
-generateSeats();
-  </script>
+// IMPORTANT: Run after page loads
+window.onload = generateSeats;
+</script>
 
-<h1>🚌 Bus Ticket Reservation</h1>
-
-<div class="form">
-  <input type="text" id="name" placeholder="Your Name">
-  <input type="text" id="from" placeholder="From">
-  <input type="text" id="to" placeholder="To">
-  <button onclick="generateSeats()">Search Bus</button>
-</div>
-
-<h2>Select Seats</h2>
-<div id="seats"></div>
-
-<button onclick="bookSeats()">Book Now</button>
-
-<h2>Bookings</h2>
-<ul id="bookingList"></ul>
-
-<script src="script.js"></script>
 </body>
 </html>
