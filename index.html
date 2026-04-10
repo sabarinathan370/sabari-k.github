@@ -3,196 +3,193 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Srisabarinathan K | Portfolio</title>
-
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;600&display=swap" rel="stylesheet">
+<title>Luxury Bus Reservation</title>
 
 <style>
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: 'Poppins', sans-serif;
-}
+    body {
+        margin: 0;
+        font-family: 'Segoe UI', sans-serif;
+        background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+        color: white;
+    }
 
-body {
-    background: #020617;
-    color: #e2e8f0;
-    scroll-behavior: smooth;
-}
+    header {
+        text-align: center;
+        padding: 20px;
+        font-size: 28px;
+        font-weight: bold;
+        letter-spacing: 2px;
+        background: rgba(0,0,0,0.3);
+    }
 
-/* HERO */
-.hero {
-    height: 100vh;
-    background: linear-gradient(135deg, #4f46e5, #06b6d4);
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    color: white;
-}
+    .container {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        padding: 20px;
+        gap: 30px;
+    }
 
-.hero h1 {
-    font-size: 3rem;
-    animation: fadeIn 2s ease-in-out;
-}
+    .card {
+        background: rgba(255,255,255,0.1);
+        backdrop-filter: blur(10px);
+        border-radius: 15px;
+        padding: 20px;
+        box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+        transition: 0.3s;
+    }
 
-.hero p {
-    margin-top: 10px;
-    font-size: 1.3rem;
-}
+    .card:hover {
+        transform: scale(1.05);
+    }
 
-/* NAV */
-nav {
-    position: sticky;
-    top: 0;
-    background: rgba(2,6,23,0.9);
-    display: flex;
-    justify-content: center;
-    gap: 25px;
-    padding: 15px;
-    backdrop-filter: blur(10px);
-}
+    .form-section input, .form-section select {
+        width: 100%;
+        padding: 10px;
+        margin: 10px 0;
+        border-radius: 8px;
+        border: none;
+    }
 
-nav a {
-    color: #38bdf8;
-    text-decoration: none;
-    font-weight: 600;
-}
+    .btn {
+        background: #ff9800;
+        padding: 10px;
+        border: none;
+        width: 100%;
+        border-radius: 8px;
+        cursor: pointer;
+        font-weight: bold;
+    }
 
-/* SECTION */
-section {
-    padding: 60px 20px;
-    max-width: 1000px;
-    margin: auto;
-}
+    .btn:hover {
+        background: #e68900;
+    }
 
-h2 {
-    color: #22c55e;
-    margin-bottom: 20px;
-}
+    .bus {
+        display: grid;
+        grid-template-columns: repeat(4, 50px);
+        gap: 10px;
+        justify-content: center;
+    }
 
-.card {
-    background: #0f172a;
-    padding: 20px;
-    border-radius: 15px;
-    margin-bottom: 20px;
-    transition: 0.3s;
-}
+    .seat {
+        width: 50px;
+        height: 50px;
+        background: #ccc;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: 0.3s;
+    }
 
-.card:hover {
-    transform: scale(1.05);
-    box-shadow: 0 0 20px #06b6d4;
-}
+    .seat:hover {
+        background: #90caf9;
+    }
 
-/* SKILLS */
-.skills span {
-    display: inline-block;
-    background: #1e293b;
-    margin: 5px;
-    padding: 10px;
-    border-radius: 8px;
-}
+    .seat.selected {
+        background: #4caf50;
+    }
 
-/* LINKS */
-.links a {
-    display: inline-block;
-    margin: 10px;
-    padding: 10px 15px;
-    background: #06b6d4;
-    color: white;
-    border-radius: 8px;
-    text-decoration: none;
-    transition: 0.3s;
-}
+    .seat.booked {
+        background: #e53935;
+        cursor: not-allowed;
+    }
 
-.links a:hover {
-    background: #4f46e5;
-}
+    .info {
+        margin-top: 15px;
+        text-align: center;
+    }
 
-/* FOOTER */
-footer {
-    text-align: center;
-    padding: 20px;
-    background: #020617;
-}
-
-/* ANIMATION */
-@keyframes fadeIn {
-    from {opacity: 0; transform: translateY(-20px);}
-    to {opacity: 1; transform: translateY(0);}
-}
+    footer {
+        text-align: center;
+        padding: 10px;
+        opacity: 0.7;
+    }
 </style>
 </head>
 
 <body>
-  <p align="center">
-  <img src="C:\Users\HP\Downloads\WhatsApp Image 2026-04-02 at 10.24.24 AM.jpeg">
-</p>    
 
-<div class="hero">
-    <h1>Srisabarinathan K</h1>
-    <p>🚀 Full Stack Developer | Future Tech Explorer</p>
-</div>
+<header>🚌 Premium Bus Reservation System</header>
 
-<nav>
-    <a href="#about">About</a>
-    <a href="#projects">Projects</a>
-    <a href="#skills">Skills</a>
-    <a href="#contact">Contact</a>
-</nav>
+<div class="container">
 
-<section id="about">
-    <h2>👨‍💻 About Me</h2>
-    <div class="card">
-        <p>
-        I am a first-year B.Tech IT student at Karpagam College of Engineering (2025–2029), passionate about programming and technology.
-        </p>
-        <p>
-        Currently learning C++, web development, and problem solving. I love building projects and improving daily.
-        </p>
+    <!-- Booking Form -->
+    <div class="card form-section">
+        <h3>Booking Details</h3>
+        <input type="text" id="name" placeholder="Passenger Name">
+        <select id="from">
+            <option>Coimbatore</option>
+            <option>Chennai</option>
+            <option>Bangalore</option>
+        </select>
+        <select id="to">
+            <option>Chennai</option>
+            <option>Madurai</option>
+            <option>Hyderabad</option>
+        </select>
+        <input type="date" id="date">
+        <button class="btn" onclick="confirmBooking()">Confirm Booking</button>
     </div>
-</section>
 
-<section id="projects">
-    <h2>📂 Projects</h2>
+    <!-- Seat Layout -->
     <div class="card">
-        <h3>🧮 Simple Calculator</h3>
-        <p>A simple calculator performing arithmetic operations using programming logic.</p>
-    </div>
-</section>
-
-<section id="skills">
-    <h2>⚡ Skills</h2>
-    <div class="card skills">
-        <span>C++</span>
-        <span>HTML</span>
-        <span>CSS</span>
-        <span>JavaScript</span>
-        <span>Problem Solving</span>
-        <span>Python (Data Science)</span>
-        <span>Agentic AI</span>
-    </div>
-</section>
-
-<section id="contact">
-    <h2>📞 Contact</h2>
-    <div class="card">
-        <p>Email: krsrisabari123@gmail.com</p>
-        <p>Phone: 9629081281</p>
-
-        <div class="links">
-            <a href="https://www.linkedin.com/in/sabari-nathan-2a9428395?utm_source=share_via&utm_content=profile&utm_medium=member_android">LinkedIn</a>
-            <a href="https://leetcode.com/u/0c9ysjMSO7/">LeetCode</a>
-            <a href="https://www.geeksforgeeks.org/profile/user_h29qwiyhjtk">CodeChef</a>
-            <a href="https://www.codechef.com/users/quasi_oxen_59">GeeksforGeeks</a>
+        <h3>Select Your Seat</h3>
+        <div class="bus" id="bus"></div>
+        <div class="info">
+            <p>Selected Seats: <span id="count">0</span></p>
+            <p>Total Price: ₹<span id="total">0</span></p>
         </div>
     </div>
-</section>
 
-<footer>
-    <p>© 2026 Sabari K| Built with 💙</p>
-</footer>
+</div>
+
+<footer>✨ Designed with modern UI effects</footer>
+
+<script>
+    const bus = document.getElementById('bus');
+    const count = document.getElementById('count');
+    const total = document.getElementById('total');
+
+    const seatPrice = 250;
+
+    // Create 32 seats
+    for (let i = 1; i <= 32; i++) {
+        const seat = document.createElement('div');
+        seat.classList.add('seat');
+
+        // Random booked seats
+        if (Math.random() < 0.2) {
+            seat.classList.add('booked');
+        }
+
+        seat.addEventListener('click', () => {
+            if (!seat.classList.contains('booked')) {
+                seat.classList.toggle('selected');
+                update();
+            }
+        });
+
+        bus.appendChild(seat);
+    }
+
+    function update() {
+        const selectedSeats = document.querySelectorAll('.seat.selected');
+        count.innerText = selectedSeats.length;
+        total.innerText = selectedSeats.length * seatPrice;
+    }
+
+    function confirmBooking() {
+        const name = document.getElementById('name').value;
+        const selectedSeats = document.querySelectorAll('.seat.selected').length;
+
+        if (!name || selectedSeats === 0) {
+            alert("Please enter name and select seats!");
+            return;
+        }
+
+        alert(`Booking Confirmed for ${name}\nSeats: ${selectedSeats}`);
+    }
+</script>
 
 </body>
 </html>
