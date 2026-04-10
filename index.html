@@ -1,167 +1,125 @@
-require("dotenv").config();
-const express = require("express");
-const mongoose = require("mongoose");
-const jwt = require("jsonwebtoken");
-const bcrypt = require("bcryptjs");
-const cors = require("cors");
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Bus Ticket Reservation</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+  body {
+  font-family: Arial;
+  text-align: center;
+}
 
-const app = express();
-app.use(express.json());
-app.use(cors());
+.form input {
+  margin: 5px;
+  padding: 8px;
+}
 
-/* ================== DATABASE ================== */
-mongoose.connect("mongodb://127.0.0.1:27017/busdb")
-  .then(() => console.log("MongoDB Connected"))
-  .catch(err => console.log(err));
+#seats {
+  display: grid;
+  grid-template-columns: repeat(5, 50px);
+  gap: 10px;
+  justify-content: center;
+  margin: 20px;
+}
 
-/* ================== MODELS ================== */
-const User = mongoose.model("User", new mongoose.Schema({
-  name: String,
-  email: { type: String, unique: true },
-  password: String
-}));
+.seat {
+  padding: 10px;
+  border: 1px solid black;
+  cursor: pointer;
+}
 
-const Bus = mongoose.model("Bus", new mongoose.Schema({
-  name: String,
-  from: String,
-  to: String,
-  date: String,
-  price: Number,
-  totalSeats: Number,
-  availableSeats: [Number]
-}));
+.selected {
+  background-color: green;
+  color: white;
+}
 
-const Booking = mongoose.model("Booking", new mongoose.Schema({
-  userId: String,
-  busId: String,
-  seats: [Number],
-  totalPrice: Number,
-  createdAt: { type: Date, default: Date.now }
-}));
+.booked {
+  background-color: gray;
+  color: white;
+  cursor: not-allowed;
+}
+    </style>
+</head>
+<body>
+  <script>
+  let selectedSeats = [];
+let bookedSeats = JSON.parse(localStorage.getItem("bookedSeats")) || [];
 
-/* ================== MIDDLEWARE ================== */
-const auth = (req, res, next) => {
-  const token = req.header("Authorization");
-  if (!token) return res.status(401).send("No token");
+function generateSeats() {
+  const seatContainer = document.getElementById("seats");
+  seatContainer.innerHTML = "";
 
-  try {
-    const verified = jwt.verify(token, "secret123");
-    req.user = verified;
-    next();
-  } catch {
-    res.status(400).send("Invalid token");
+  for (let i = 1; i <= 20; i++) {
+    const seat = document.createElement("div");
+    seat.classList.add("seat");
+    seat.innerText = i;
+
+    if (bookedSeats.includes(i)) {
+      seat.classList.add("booked");
+    }
+
+    seat.onclick = () => selectSeat(seat, i);
+    seatContainer.appendChild(seat);
   }
-};
+}
 
-/* ================== AUTH ROUTES ================== */
+function selectSeat(seat, num) {
+  if (bookedSeats.includes(num)) return;
 
-// Register
-app.post("/api/register", async (req, res) => {
-  try {
-    const { name, email, password } = req.body;
-
-    const hash = await bcrypt.hash(password, 10);
-
-    const user = new User({ name, email, password: hash });
-    await user.save();
-
-    res.json({ msg: "User registered" });
-  } catch (err) {
-    res.status(400).json({ error: "User already exists" });
+  if (selectedSeats.includes(num)) {
+    selectedSeats = selectedSeats.filter(s => s !== num);
+    seat.classList.remove("selected");
+  } else {
+    selectedSeats.push(num);
+    seat.classList.add("selected");
   }
-});
+}
 
-// Login
-app.post("/api/login", async (req, res) => {
-  const { email, password } = req.body;
+function bookSeats() {
+  const name = document.getElementById("name").value;
+  const from = document.getElementById("from").value;
+  const to = document.getElementById("to").value;
 
-  const user = await User.findOne({ email });
-  if (!user) return res.status(400).send("User not found");
-
-  const isMatch = await bcrypt.compare(password, user.password);
-  if (!isMatch) return res.status(400).send("Wrong password");
-
-  const token = jwt.sign({ id: user._id }, "secret123");
-  res.json({ token });
-});
-
-/* ================== BUS ROUTES ================== */
-
-// Add Bus (Admin simulation)
-app.post("/api/bus", async (req, res) => {
-  const { name, from, to, date, price, totalSeats } = req.body;
-
-  const seats = Array.from({ length: totalSeats }, (_, i) => i + 1);
-
-  const bus = new Bus({
-    name,
-    from,
-    to,
-    date,
-    price,
-    totalSeats,
-    availableSeats: seats
-  });
-
-  await bus.save();
-  res.json(bus);
-});
-
-// Get buses
-app.get("/api/bus", async (req, res) => {
-  const { from, to, date } = req.query;
-
-  const buses = await Bus.find({ from, to, date });
-  res.json(buses);
-});
-
-/* ================== BOOKING ROUTE ================== */
-
-app.post("/api/book", auth, async (req, res) => {
-  const { busId, seats } = req.body;
-
-  const bus = await Bus.findById(busId);
-  if (!bus) return res.status(404).send("Bus not found");
-
-  // Check availability
-  const isAvailable = seats.every(seat =>
-    bus.availableSeats.includes(seat)
-  );
-
-  if (!isAvailable) {
-    return res.status(400).json({ msg: "Seats not available" });
+  if (!name || selectedSeats.length === 0) {
+    alert("Enter name and select seats");
+    return;
   }
 
-  // Remove booked seats
-  bus.availableSeats = bus.availableSeats.filter(
-    seat => !seats.includes(seat)
-  );
+  bookedSeats = [...bookedSeats, ...selectedSeats];
+  localStorage.setItem("bookedSeats", JSON.stringify(bookedSeats));
 
-  await bus.save();
+  const bookingList = document.getElementById("bookingList");
 
-  const booking = new Booking({
-    userId: req.user.id,
-    busId,
-    seats,
-    totalPrice: seats.length * bus.price
-  });
+  const li = document.createElement("li");
+  li.innerText = `${name} booked seats ${selectedSeats.join(", ")} (${from} → ${to})`;
+  bookingList.appendChild(li);
 
-  await booking.save();
+  selectedSeats = [];
+  generateSeats();
+}
 
-  res.json({
-    msg: "Booking Confirmed",
-    booking
-  });
-});
+// Load seats on page load
+generateSeats();
+  </script>
 
-/* ================== USER BOOKINGS ================== */
+<h1>🚌 Bus Ticket Reservation</h1>
 
-app.get("/api/mybookings", auth, async (req, res) => {
-  const bookings = await Booking.find({ userId: req.user.id });
-  res.json(bookings);
-});
+<div class="form">
+  <input type="text" id="name" placeholder="Your Name">
+  <input type="text" id="from" placeholder="From">
+  <input type="text" id="to" placeholder="To">
+  <button onclick="generateSeats()">Search Bus</button>
+</div>
 
-/* ================== START SERVER ================== */
-app.listen(5000, () => {
-  console.log("Server running on http://localhost:5000");
-});
+<h2>Select Seats</h2>
+<div id="seats"></div>
+
+<button onclick="bookSeats()">Book Now</button>
+
+<h2>Bookings</h2>
+<ul id="bookingList"></ul>
+
+<script src="script.js"></script>
+</body>
+</html>
