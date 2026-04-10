@@ -1,195 +1,176 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Luxury Bus Reservation</title>
+#include <iostream>
+#include <fstream>
+#include <string>
+using namespace std;
 
-<style>
-    body {
-        margin: 0;
-        font-family: 'Segoe UI', sans-serif;
-        background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
-        color: white;
+class Bus {
+public:
+    int busNo;
+    string driver;
+    string arrival;
+    string departure;
+    int seats[32];
+
+    Bus() {
+        for (int i = 0; i < 32; i++)
+            seats[i] = 0;
     }
 
-    header {
-        text-align: center;
-        padding: 20px;
-        font-size: 28px;
-        font-weight: bold;
-        letter-spacing: 2px;
-        background: rgba(0,0,0,0.3);
+    void installBus() {
+        cout << "Enter Bus No: ";
+        cin >> busNo;
+        cout << "Driver Name: ";
+        cin >> driver;
+        cout << "Arrival Time: ";
+        cin >> arrival;
+        cout << "Departure Time: ";
+        cin >> departure;
+
+        saveBus();
     }
 
-    .container {
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: center;
-        padding: 20px;
-        gap: 30px;
+    void saveBus() {
+        ofstream file("bus.dat", ios::app);
+        file.write((char*)this, sizeof(*this));
+        file.close();
     }
 
-    .card {
-        background: rgba(255,255,255,0.1);
-        backdrop-filter: blur(10px);
-        border-radius: 15px;
-        padding: 20px;
-        box-shadow: 0 10px 25px rgba(0,0,0,0.5);
-        transition: 0.3s;
+    void displayBus() {
+        cout << "\nBus No: " << busNo
+             << "\nDriver: " << driver
+             << "\nArrival: " << arrival
+             << "\nDeparture: " << departure << endl;
     }
 
-    .card:hover {
-        transform: scale(1.05);
-    }
-
-    .form-section input, .form-section select {
-        width: 100%;
-        padding: 10px;
-        margin: 10px 0;
-        border-radius: 8px;
-        border: none;
-    }
-
-    .btn {
-        background: #ff9800;
-        padding: 10px;
-        border: none;
-        width: 100%;
-        border-radius: 8px;
-        cursor: pointer;
-        font-weight: bold;
-    }
-
-    .btn:hover {
-        background: #e68900;
-    }
-
-    .bus {
-        display: grid;
-        grid-template-columns: repeat(4, 50px);
-        gap: 10px;
-        justify-content: center;
-    }
-
-    .seat {
-        width: 50px;
-        height: 50px;
-        background: #ccc;
-        border-radius: 8px;
-        cursor: pointer;
-        transition: 0.3s;
-    }
-
-    .seat:hover {
-        background: #90caf9;
-    }
-
-    .seat.selected {
-        background: #4caf50;
-    }
-
-    .seat.booked {
-        background: #e53935;
-        cursor: not-allowed;
-    }
-
-    .info {
-        margin-top: 15px;
-        text-align: center;
-    }
-
-    footer {
-        text-align: center;
-        padding: 10px;
-        opacity: 0.7;
-    }
-</style>
-</head>
-
-<body>
-
-<header>🚌 Premium Bus Reservation System</header>
-
-<div class="container">
-
-    <!-- Booking Form -->
-    <div class="card form-section">
-        <h3>Booking Details</h3>
-        <input type="text" id="name" placeholder="Passenger Name">
-        <select id="from">
-            <option>Coimbatore</option>
-            <option>Chennai</option>
-            <option>Bangalore</option>
-        </select>
-        <select id="to">
-            <option>Chennai</option>
-            <option>Madurai</option>
-            <option>Hyderabad</option>
-        </select>
-        <input type="date" id="date">
-        <button class="btn" onclick="confirmBooking()">Confirm Booking</button>
-    </div>
-
-    <!-- Seat Layout -->
-    <div class="card">
-        <h3>Select Your Seat</h3>
-        <div class="bus" id="bus"></div>
-        <div class="info">
-            <p>Selected Seats: <span id="count">0</span></p>
-            <p>Total Price: ₹<span id="total">0</span></p>
-        </div>
-    </div>
-
-</div>
-
-<footer>✨ Designed with modern UI effects</footer>
-
-<script>
-    const bus = document.getElementById('bus');
-    const count = document.getElementById('count');
-    const total = document.getElementById('total');
-
-    const seatPrice = 250;
-
-    // Create 32 seats
-    for (let i = 1; i <= 32; i++) {
-        const seat = document.createElement('div');
-        seat.classList.add('seat');
-
-        // Random booked seats
-        if (Math.random() < 0.2) {
-            seat.classList.add('booked');
+    void showSeats() {
+        for (int i = 0; i < 32; i++) {
+            cout << seats[i] << " ";
+            if ((i + 1) % 4 == 0) cout << endl;
         }
+    }
+};
 
-        seat.addEventListener('click', () => {
-            if (!seat.classList.contains('booked')) {
-                seat.classList.toggle('selected');
-                update();
+class Ticket {
+public:
+    int ticketID;
+    int busNo;
+    int seatNo;
+    string passenger;
+
+    void bookTicket() {
+        static int id = 1000;
+        ticketID = id++;
+
+        cout << "Enter Bus No: ";
+        cin >> busNo;
+        cout << "Passenger Name: ";
+        cin >> passenger;
+        cout << "Seat No (1-32): ";
+        cin >> seatNo;
+
+        saveTicket();
+        cout << "Ticket Booked! ID: " << ticketID << endl;
+    }
+
+    void saveTicket() {
+        ofstream file("ticket.dat", ios::app);
+        file.write((char*)this, sizeof(*this));
+        file.close();
+    }
+
+    static void displayTickets() {
+        Ticket t;
+        ifstream file("ticket.dat");
+
+        while (file.read((char*)&t, sizeof(t))) {
+            cout << "\nTicket ID: " << t.ticketID
+                 << "\nBus No: " << t.busNo
+                 << "\nPassenger: " << t.passenger
+                 << "\nSeat No: " << t.seatNo << endl;
+        }
+        file.close();
+    }
+
+    static void cancelTicket(int id) {
+        Ticket t;
+        ifstream file("ticket.dat");
+        ofstream temp("temp.dat");
+
+        while (file.read((char*)&t, sizeof(t))) {
+            if (t.ticketID != id) {
+                temp.write((char*)&t, sizeof(t));
             }
-        });
-
-        bus.appendChild(seat);
-    }
-
-    function update() {
-        const selectedSeats = document.querySelectorAll('.seat.selected');
-        count.innerText = selectedSeats.length;
-        total.innerText = selectedSeats.length * seatPrice;
-    }
-
-    function confirmBooking() {
-        const name = document.getElementById('name').value;
-        const selectedSeats = document.querySelectorAll('.seat.selected').length;
-
-        if (!name || selectedSeats === 0) {
-            alert("Please enter name and select seats!");
-            return;
         }
 
-        alert(`Booking Confirmed for ${name}\nSeats: ${selectedSeats}`);
-    }
-</script>
+        file.close();
+        temp.close();
 
-</body>
-</html>
+        remove("ticket.dat");
+        rename("temp.dat", "ticket.dat");
+
+        cout << "Ticket Cancelled Successfully!\n";
+    }
+};
+
+void showMenu() {
+    cout << "\n===== BUS RESERVATION SYSTEM =====\n";
+    cout << "1. Add Bus\n";
+    cout << "2. View Buses\n";
+    cout << "3. Book Ticket\n";
+    cout << "4. View Tickets\n";
+    cout << "5. Cancel Ticket\n";
+    cout << "6. Exit\n";
+    cout << "Enter choice: ";
+}
+
+int main() {
+    int choice;
+    Bus b;
+    Ticket t;
+
+    do {
+        showMenu();
+        cin >> choice;
+
+        switch (choice) {
+        case 1:
+            b.installBus();
+            break;
+
+        case 2: {
+            ifstream file("bus.dat");
+            while (file.read((char*)&b, sizeof(b))) {
+                b.displayBus();
+            }
+            file.close();
+            break;
+        }
+
+        case 3:
+            t.bookTicket();
+            break;
+
+        case 4:
+            Ticket::displayTickets();
+            break;
+
+        case 5: {
+            int id;
+            cout << "Enter Ticket ID to cancel: ";
+            cin >> id;
+            Ticket::cancelTicket(id);
+            break;
+        }
+
+        case 6:
+            cout << "Exiting...\n";
+            break;
+
+        default:
+            cout << "Invalid choice!\n";
+        }
+
+    } while (choice != 6);
+
+    return 0;
+}
